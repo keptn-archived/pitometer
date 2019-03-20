@@ -1,0 +1,169 @@
+{
+  "spec_version": "1.0",
+  "indicators": [
+    {
+      "id": "go_memstats_alloc_bytes",
+      "source": "Prometheus",
+      "query": "go_memstats_alloc_bytes{instance='localhost:9090',job='prometheus'}",
+      "grading": {
+        "type": "Threshold",
+        "thresholds": {
+          "upperSevere": 21802344
+        },
+        "metricScore": 20
+      }
+    },
+    {
+      "id": "Avg_ActionDuration_Category",
+      "source": "Dynatrace",
+      "query": {
+        "timeseriesId": "com.dynatrace.builtin:appmethod.useractionduration",
+        "aggregation": "avg",
+        "entityIds": [
+          "APPLICATION_METHOD-63947D52F76D9981"
+        ]
+      },
+      "grading": {
+        "type": "Threshold",
+        "thresholds": {
+          "upperSevere": 10000000,
+          "upperWarning": 5000000
+        },
+        "metricScore": 20
+      }
+    },
+    {
+      "id": "P90_ResponseTime_Backend",
+      "source": "Dynatrace",
+      "query": {
+        "timeseriesId": "com.dynatrace.builtin:service.responsetime",
+        "aggregation": "p90",
+        "tags": [
+          "backend"
+        ]
+      },
+      "grading": {
+        "type": "Threshold",
+        "thresholds": {
+          "upperSevere": 1000000,
+          "upperWarning": 800000,
+          "lowerWarning ": 200000,
+          "lowerSevere": 100000
+        },
+        "metricScore": 20
+      }
+    },
+    {
+      "id": "Avg_FailureRate_Backend",
+      "source": "Dynatrace",
+      "query": {
+        "timeseriesId": "com.dynatrace.builtin:service.failurerate",
+        "aggregation": "avg",
+        "tags": [
+          "backend"
+        ]
+      },
+      "grading": {
+        "type": "Threshold",
+        "thresholds": {
+          "upperSevere": 2,
+          "upperWarning": 1
+        },
+        "metricScore": 20
+      },
+      "metadata": {
+        "playbookhints": [
+          "playbook-sockshop-switchcanary"
+        ]
+      }
+    },
+    {
+      "id": "Throughput_Booking",
+      "source": "Dynatrace",
+      "query": {
+        "timeseriesId": "com.dynatrace.builtin:service.requestspermin",
+        "aggregation": "count",
+        "tags": [
+          "booking"
+        ]
+      },
+      "grading": {
+        "type": "Threshold",
+        "thresholds": {
+          "lowerSevere": 0
+        },
+        "metricScore": 10
+      }
+    },
+    {
+      "id": "MAX_JVMMemoryUsage_BackendPGI",
+      "source": "Dynatrace",
+      "query": {
+        "timeseriesId": "com.dynatrace.builtin:pgi.jvm.usedmemory",
+        "aggregation": "max",
+        "tags": [
+          "backend"
+        ]
+      },
+      "grading": {
+        "type": "Threshold",
+        "thresholds": {
+          "upperSevere": 100000000,
+          "upperWarning": 80000000
+        },
+        "metricScore": 10
+      },
+      "metadata": {
+        "playbookhints": [
+          "playbook-sockshop-memory"
+        ]
+      }
+    },
+    {
+      "id": "OutgoingDependencies_Backend",
+      "source": "Dynatrace",
+      "query": {
+        "smartscape": "toRelationships:calls",
+        "aggregation": "count",
+        "tags": [
+          "backend"
+        ]
+      },
+      "grading": {
+        "type": "Threshold",
+        "thresholds": {
+          "upperSevere": 2,
+          "lowerSevere": 0
+        },
+        "metricScore": 10
+      }
+    },
+    {
+      "id": "RunsOn_Backend",
+      "source": "Dynatrace",
+      "query": {
+        "smartscape": "toRelationships:runsOn",
+        "aggregation": "count",
+        "tags": [
+          "backend"
+        ]
+      },
+      "grading": {
+        "type": "Threshold",
+        "thresholds": {
+          "lowerSevere": 0
+        },
+        "metricScore": 10
+      },
+      "metadata": {
+        "playbookhints": [
+          "playbook-sockshop-scale"
+        ]
+      }
+    }
+  ],
+  "objectives": {
+    "pass": 90,
+    "warning": 75
+  }
+}
