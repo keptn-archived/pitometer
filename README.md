@@ -1,6 +1,6 @@
 # Pitometer
 
-*This product is currently in alpha stage and subject to change.*
+*This project is currently in alpha stage and subject to change.*
 
 Pitometer is a Node.js module that helps you to qualify the overal performance
 or quality of applications using a well defined specificaton format.
