@@ -16,7 +16,7 @@ are available but it's easy to write new sources and graders.
 ## Quickstart
 
 1. As long as this module is not available on npm, please
-   run `npm install -S https://github.com/pitometer/Pitometer` to install it
+   run `npm install -S https://github.com/pitometer/pitometer` to install it
    into your Node.js project. Sources can be installed the same way.
 
 1. Require, configure and register all components and
