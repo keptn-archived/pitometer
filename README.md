@@ -23,10 +23,10 @@ are available but it's easy to write new sources and graders.
    run the monspec file.
 
   ```js
-  const Pitometer = require('pitometer').Pitometer;
-  const DynatraceSource = require('pitometer-source-dynatrace').Source;
-  const PrometheusSource = require('pitometer-source-prometheus').Source;
-  const ThresholdGrader = require('pitometer-grader-threshold').Grader;
+  const Pitometer = require('@pitometer/pitometer').Pitometer;
+  const DynatraceSource = require('@pitometer/source-dynatrace').Source;
+  const PrometheusSource = require('@pitometer/source-prometheus').Source;
+  const ThresholdGrader = require('@pitometer/grader-threshold').Grader;
 
   const pitometer = new Pitometer();
 
