@@ -1,5 +1,5 @@
 {
-  "name": "pitometer",
+  "name": "@pitometer/pitometer",
   "version": "0.0.1",
   "description": "Collects metrics and judges the health of a deployment",
   "main": "./dist/index.js",
