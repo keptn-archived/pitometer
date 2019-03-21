@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 export interface ISource {
-  fetch(query: object): Promise<number | boolean>;
+  fetch(query: object): Promise<number | boolean | null>;
 }
 export interface IGrader {
   grade(id: string, value: number | boolean, definition: any, context?:any): IGradingResult;
