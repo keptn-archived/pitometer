@@ -5,7 +5,7 @@
 Pitometer is a Node.js module that helps you to qualify the overal performance
 or quality of applications using a well defined specificaton format.
 
-The specification is done using the Monspec format which is a declarative way to
+The specification is done using the Perfspec format which is a declarative way to
 define which metrics you want to pay attention to, the sources to collect
 them from and how to grade/interpret the results.
 
@@ -20,7 +20,7 @@ are available but it's easy to write new sources and graders.
    into your Node.js project. Sources can be installed the same way.
 
 1. Require, configure and register all components and
-   run the monspec file.
+   run the perfspec file.
 
   ```js
   const Pitometer = require('@pitometer/pitometer').Pitometer;
@@ -31,12 +31,12 @@ are available but it's easy to write new sources and graders.
   const pitometer = new Pitometer();
 
   // Register a Prometheus source that will be used if the source ID in your
-  // monspec matches 'Prometheus'
+  // perfspec matches 'Prometheus'
   pitometer.addSource('Prometheus', new PrometheusSource({
     queryUrl: '<PROMETHEUS_PROMQL_ENDPOINT>',
   }));
 
-  // Register a source that will be used if the source ID in your monspec matches
+  // Register a source that will be used if the source ID in your perfspec matches
   // 'Dynatrace'
   pitometer.addSource('Dynatrace', new DynatraceSource({
     baseUrl: '<DYNATRACE_ENVIRONMENT_URL>',
@@ -49,12 +49,12 @@ are available but it's easy to write new sources and graders.
   // matches 'Threshold'
   pitometer.addGrader('Threshold', new ThresholdGrader());
 
-  // Load a monspec - see the samples directory
-  const monspec = require('./samples/monspec-sample.json');
+  // Load a perfspec - see the samples directory
+  const perfspec = require('./samples/monspec-sample.json');
 
-  // Run the monspec, apssing in an optional context parameter 'prod'
+  // Run the perfspec, apssing in an optional context parameter 'prod'
   // and log the result out to the console
-  pitometer.run(monspec, 'prod')
+  pitometer.run(perfspec, 'prod')
     .then((results) => console.log(JSON.stringify(results)))
     .catch((err) => console.error(err));
   ```
