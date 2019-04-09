@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ISource, IGrader, IRunResult, IMonspec } from '../types';
+import { ISource, IGrader, IRunResult, IMonspec, IOptions } from '../types';
 export declare class Pitometer {
     private sources;
     private indicators;
@@ -37,5 +37,5 @@ export declare class Pitometer {
      * @param spec The monspec as object
      * @param context An optional context object that is passed down through the chain
     */
-    run(spec: IMonspec, context?: string): Promise<IRunResult>;
+    run(spec: IMonspec, options: IOptions): Promise<IRunResult>;
 }

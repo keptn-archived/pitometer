@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ISource, IGrader, IRunResult, IMonspec } from '../types';
+import { ISource, IGrader, IRunResult, IMonspec, IOptions } from '../types';
 import { Indicator } from './Indicator';
 
 export class Pitometer {
@@ -53,18 +53,21 @@ export class Pitometer {
    * @param spec The monspec as object
    * @param context An optional context object that is passed down through the chain
   */
-  public async run(spec: IMonspec, context = ''): Promise<IRunResult> {
+  public async run(spec: IMonspec, options: IOptions): Promise<IRunResult> {
 
     spec.indicators.forEach((idcdef) => {
       const indicator = new Indicator(idcdef);
-      indicator.setSource(this.sources[idcdef.source]);
-      indicator.setGrader(this.graders[idcdef.grading.type]);
+      const src: ISource = this.sources[idcdef.source];
+      src.setOptions(options);
+      indicator.setSource(src);
+      const grader: IGrader = this.graders[idcdef.grading.type];
+      indicator.setGrader(grader);
       this.indicators[idcdef.id] = indicator;
     });
 
     const promisedResults = Object.keys(this.indicators).map((key) => {
       const indicator = this.indicators[key];
-      const indicatorResult = indicator.get(context);
+      const indicatorResult = indicator.get(options.context);
       return indicatorResult;
     });
 

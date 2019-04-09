@@ -15,9 +15,11 @@
  */
 export interface ISource {
     fetch(query: object): Promise<number | boolean | null>;
+    setOptions(options: IOptions): void;
 }
 export interface IGrader {
     grade(id: string, value: number | boolean, definition: any, context?: any): IGradingResult;
+    setOptions(options: IOptions): void;
 }
 export interface IGradingResult {
     id: string;
@@ -56,4 +58,9 @@ export interface IMonspec {
     spec_version: string;
     indicators: IIndicatorDefinition[];
     objectives: IObjectives;
+}
+export interface IOptions {
+    context: string;
+    timeStart: number;
+    timeEnd: number;
 }
