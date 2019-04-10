@@ -58,12 +58,14 @@ class Pitometer {
         return __awaiter(this, void 0, void 0, function* () {
             spec.indicators.forEach((idcdef) => {
                 const indicator = new Indicator_1.Indicator(idcdef);
-                const src = this.sources[idcdef.source];
-                src.setOptions(options);
-                indicator.setSource(src);
-                const grader = this.graders[idcdef.grading.type];
-                indicator.setGrader(grader);
-                this.indicators[idcdef.id] = indicator;
+                if (this.sources[idcdef.source]) {
+                    const src = this.sources[idcdef.source];
+                    src.setOptions(options);
+                    indicator.setSource(src);
+                    const grader = this.graders[idcdef.grading.type];
+                    indicator.setGrader(grader);
+                    this.indicators[idcdef.id] = indicator;
+                }
             });
             const promisedResults = Object.keys(this.indicators).map((key) => {
                 const indicator = this.indicators[key];

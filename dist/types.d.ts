@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 export interface ISource {
-    fetch(query: object): Promise<number | boolean | null>;
+    fetch(query: object): Promise<ISourceResult[] | boolean | boolean | null>;
     setOptions(options: IOptions): void;
 }
 export interface IGrader {
-    grade(id: string, value: number | boolean, definition: any, context?: any): IGradingResult;
+    grade(id: string, results: ISourceResult[] | boolean, definition: any, context?: any): IGradingResult;
     setOptions(options: IOptions): void;
 }
 export interface IGradingResult {
@@ -63,4 +63,9 @@ export interface IOptions {
     context: string;
     timeStart: number;
     timeEnd: number;
+}
+export interface ISourceResult {
+    key: string;
+    timestamp: number;
+    value: number;
 }

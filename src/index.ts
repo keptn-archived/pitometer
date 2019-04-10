@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-export { ISource, IGrader, IGradingResult, IOptions } from './types';
+export { ISource, IGrader, IGradingResult, IOptions, ISourceResult } from './types';
 
 export { Pitometer } from './classes/Pitometer';
