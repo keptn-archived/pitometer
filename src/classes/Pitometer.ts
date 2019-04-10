@@ -76,6 +76,7 @@ export class Pitometer {
     const indicatorResults = await Promise.all(promisedResults);
 
     const totalScore = indicatorResults.reduce((total, result) => {
+      if (!result) return total;
       return total + result.score;
     }, 0);
 

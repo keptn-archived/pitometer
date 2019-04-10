@@ -57,8 +57,8 @@ class Indicator {
      */
     get(context = '') {
         return __awaiter(this, void 0, void 0, function* () {
-            const value = yield this.source.fetch(this.query);
-            const grade = this.grader.grade(this.id, value, this.grading, context);
+            const results = yield this.source.fetch(this.query);
+            const grade = this.grader.grade(this.id, results, this.grading, context);
             return grade;
         });
     }

@@ -17,6 +17,18 @@ export interface ISource {
   fetch(query: object): Promise<ISourceResult[] | boolean | boolean | null>;
   setOptions(options: IOptions): void;
 }
+export interface ISourceResult {
+  key: string;
+  timestamp: number;
+  value: number;
+}
+
+export interface IViolation {
+  key: string;
+  value: number;
+  breach: string;
+}
+
 export interface IGrader {
   grade(
     id: string, results: ISourceResult[] | boolean, definition: any, context?:any): IGradingResult;
@@ -24,7 +36,6 @@ export interface IGrader {
 }
 export interface IGradingResult {
   id: string;
-  value: number | boolean;
   score: number;
   violations: any;
 }
@@ -70,8 +81,4 @@ export interface IOptions {
   timeStart: number;
   timeEnd: number;
 }
-export interface ISourceResult {
-  key: string;
-  timestamp: number;
-  value: number;
-}
+

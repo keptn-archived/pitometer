@@ -74,6 +74,8 @@ class Pitometer {
             });
             const indicatorResults = yield Promise.all(promisedResults);
             const totalScore = indicatorResults.reduce((total, result) => {
+                if (!result)
+                    return total;
                 return total + result.score;
             }, 0);
             const objectives = spec.objectives;
