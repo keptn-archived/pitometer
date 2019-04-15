@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 export interface ISource {
-  fetch(query: object): Promise<ISourceResult[] | boolean | boolean | null>;
+  fetch(query: object): Promise<ISourceResult[] | boolean >;
   setOptions(options: IOptions): void;
 }
 export interface ISourceResult {
