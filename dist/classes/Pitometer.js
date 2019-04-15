@@ -51,24 +51,32 @@ class Pitometer {
     }
     /**
      * Executes a Monspec definition
+     *
      * @param spec The monspec as object
-     * @param context An optional context object that is passed down through the chain
+     * @param options An option object
     */
-    run(spec, context = '') {
+    run(spec, options) {
         return __awaiter(this, void 0, void 0, function* () {
             spec.indicators.forEach((idcdef) => {
                 const indicator = new Indicator_1.Indicator(idcdef);
-                indicator.setSource(this.sources[idcdef.source]);
-                indicator.setGrader(this.graders[idcdef.grading.type]);
-                this.indicators[idcdef.id] = indicator;
+                if (this.sources[idcdef.source]) {
+                    const src = this.sources[idcdef.source];
+                    src.setOptions(options);
+                    indicator.setSource(src);
+                    const grader = this.graders[idcdef.grading.type];
+                    indicator.setGrader(grader);
+                    this.indicators[idcdef.id] = indicator;
+                }
             });
             const promisedResults = Object.keys(this.indicators).map((key) => {
                 const indicator = this.indicators[key];
-                const indicatorResult = indicator.get(context);
+                const indicatorResult = indicator.get(options.context);
                 return indicatorResult;
             });
             const indicatorResults = yield Promise.all(promisedResults);
             const totalScore = indicatorResults.reduce((total, result) => {
+                if (!result)
+                    return total;
                 return total + result.score;
             }, 0);
             const objectives = spec.objectives;

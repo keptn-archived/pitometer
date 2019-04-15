@@ -1,6 +1,6 @@
 {
   "name": "@pitometer/pitometer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Collects metrics and judges the health of a deployment",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -25,12 +25,12 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
-    "@types/node": "^11.10.4",
+    "@types/node": "^11.13.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "mocha": "^6.0.2",
-    "tslint": "^5.13.1",
+    "mocha": "^6.1.2",
+    "tslint": "^5.15.0",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.4.2"
   }
 }

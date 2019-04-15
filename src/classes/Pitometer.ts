@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ISource, IGrader, IRunResult, IMonspec } from '../types';
+import { ISource, IGrader, IRunResult, IPerfspec, IOptions } from '../types';
 import { Indicator } from './Indicator';
 
 export class Pitometer {
@@ -50,27 +50,34 @@ export class Pitometer {
 
   /**
    * Executes a Monspec definition
+   *
    * @param spec The monspec as object
-   * @param context An optional context object that is passed down through the chain
+   * @param options An option object
   */
-  public async run(spec: IMonspec, context = ''): Promise<IRunResult> {
+  public async run(spec: IPerfspec, options: IOptions): Promise<IRunResult> {
 
     spec.indicators.forEach((idcdef) => {
       const indicator = new Indicator(idcdef);
-      indicator.setSource(this.sources[idcdef.source]);
-      indicator.setGrader(this.graders[idcdef.grading.type]);
-      this.indicators[idcdef.id] = indicator;
+      if (this.sources[idcdef.source]) {
+        const src: ISource = this.sources[idcdef.source];
+        src.setOptions(options);
+        indicator.setSource(src);
+        const grader: IGrader = this.graders[idcdef.grading.type];
+        indicator.setGrader(grader);
+        this.indicators[idcdef.id] = indicator;
+      }
     });
 
     const promisedResults = Object.keys(this.indicators).map((key) => {
       const indicator = this.indicators[key];
-      const indicatorResult = indicator.get(context);
+      const indicatorResult = indicator.get(options.context);
       return indicatorResult;
     });
 
     const indicatorResults = await Promise.all(promisedResults);
 
     const totalScore = indicatorResults.reduce((total, result) => {
+      if (!result) return total;
       return total + result.score;
     }, 0);
 

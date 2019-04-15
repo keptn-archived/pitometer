@@ -13,23 +13,60 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ *
+ */
+/**
+ * A pitometer source
+ */
 export interface ISource {
-    fetch(query: object): Promise<number | boolean | null>;
+    /** Returns the result of a single indicator query */
+    fetch(query: object): Promise<ISourceResult[] | boolean>;
+    /**
+     * Accepts an option object.
+     * It is up to the implementation to store this data on the object as needed.
+     */
+    setOptions(options: IOptions): void;
 }
+/**
+ * Represents the result of a query
+ */
+export interface ISourceResult {
+    /**
+     * The key is a unique identifier for a given entity that is inferred by the result
+     */
+    key: string;
+    /**
+     * The timestamp the returned value is from
+     */
+    timestamp: number;
+    /**
+     * A metrics value
+     */
+    value: number;
+}
+/**
+ * A pitometer grader
+ */
 export interface IGrader {
-    grade(id: string, value: number | boolean, definition: any, context?: any): IGradingResult;
+    grade(id: string, results: ISourceResult[] | boolean, definition: any): IGradingResult;
+    setOptions(options: IOptions): void;
+}
+export interface IViolation {
+    key?: string;
+    value?: number;
+    breach: string;
 }
 export interface IGradingResult {
     id: string;
-    value: number | boolean;
     score: number;
-    violations: any;
+    violations: IViolation[];
 }
 export interface IObjectives {
     pass: number;
     warning: number;
 }
-export interface IINdicatorResult {
+export interface IIndicatorResult {
     id: string;
     value: number;
     score: number;
@@ -39,7 +76,7 @@ export interface IRunResult {
     totalScore: number;
     result: string;
     objectives: IObjectives;
-    indicatorResults: IINdicatorResult[];
+    indicatorResults: IIndicatorResult[];
 }
 export interface IGradingDefinition {
     type: string;
@@ -52,8 +89,13 @@ export interface IIndicatorDefinition {
     grading: IGradingDefinition;
     metadata: any;
 }
-export interface IMonspec {
+export interface IPerfspec {
     spec_version: string;
     indicators: IIndicatorDefinition[];
     objectives: IObjectives;
+}
+export interface IOptions {
+    context: string;
+    timeStart: number;
+    timeEnd: number;
 }

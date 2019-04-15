@@ -1,7 +1,5 @@
 # Pitometer
 
-*This project is currently in alpha stage and subject to change.*
-
 Pitometer is a Node.js module that helps you to qualify the overal performance
 or quality of applications using a well defined specificaton format.
 
@@ -19,8 +17,8 @@ are available but it's easy to write new sources and graders.
    run `npm install -S https://github.com/pitometer/pitometer` to install it
    into your Node.js project. Sources can be installed the same way.
 
-1. Require, configure and register all components and
-   run the perfspec file.
+2. Require, configure and register all components and
+   run the Perfspec file.
 
   ```js
   const Pitometer = require('@pitometer/pitometer').Pitometer;
@@ -31,12 +29,12 @@ are available but it's easy to write new sources and graders.
   const pitometer = new Pitometer();
 
   // Register a Prometheus source that will be used if the source ID in your
-  // perfspec matches 'Prometheus'
+  // Perfspec matches 'Prometheus'
   pitometer.addSource('Prometheus', new PrometheusSource({
     queryUrl: '<PROMETHEUS_PROMQL_ENDPOINT>',
   }));
 
-  // Register a source that will be used if the source ID in your perfspec matches
+  // Register a source that will be used if the source ID in your Perfspec matches
   // 'Dynatrace'
   pitometer.addSource('Dynatrace', new DynatraceSource({
     baseUrl: '<DYNATRACE_ENVIRONMENT_URL>',
@@ -49,12 +47,18 @@ are available but it's easy to write new sources and graders.
   // matches 'Threshold'
   pitometer.addGrader('Threshold', new ThresholdGrader());
 
-  // Load a perfspec - see the samples directory
-  const perfspec = require('./samples/monspec-sample.json');
+  // Load a Perfspec - see the samples directory
+  const perfspec = require('./samples/perfspec-sample.json');
 
-  // Run the perfspec, apssing in an optional context parameter 'prod'
+  // Run the Perfspec, passing in an optional context parameter 'prod'
   // and log the result out to the console
-  pitometer.run(perfspec, 'prod')
+  pitometer.run(perfspec, {
+    context: 'Optional context that is passed to all sources and graders',
+    timeStart: START_TIME_IN_SECONDS,
+    timeEnd: END_TIME_IN_SECONDS,
+  })
     .then((results) => console.log(JSON.stringify(results)))
     .catch((err) => console.error(err));
   ```
+
+## API Documentation

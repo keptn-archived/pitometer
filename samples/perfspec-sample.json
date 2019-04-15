@@ -1,10 +1,24 @@
 {
-  "spec_version": "1.0",
+  "spec_version": "1.1",
   "indicators": [
     {
-      "id": "go_memstats_alloc_bytes",
+      "id": "go_gc_duration_avg",
       "source": "Prometheus",
-      "query": "go_memstats_alloc_bytes{instance='localhost:9090',job='prometheus'}",
+      "query": "avg(go_gc_duration_seconds)",
+      "output": "total",
+      "grading": {
+        "type": "Threshold",
+        "thresholds": {
+          "upperSevere": 21802344
+        },
+        "metricScore": 20
+      }
+    },
+    {
+      "id": "go_gc_duration",
+      "source": "Prometheus",
+      "query": "go_gc_duration_seconds",
+      "output": "total",
       "grading": {
         "type": "Threshold",
         "thresholds": {
@@ -23,6 +37,7 @@
           "APPLICATION_METHOD-63947D52F76D9981"
         ]
       },
+      "output": "series",
       "grading": {
         "type": "Threshold",
         "thresholds": {
@@ -101,9 +116,7 @@
       "query": {
         "timeseriesId": "com.dynatrace.builtin:pgi.jvm.usedmemory",
         "aggregation": "max",
-        "tags": [
-          "backend"
-        ]
+        "tags": []
       },
       "grading": {
         "type": "Threshold",
@@ -123,14 +136,14 @@
       "id": "OutgoingDependencies_Backend",
       "source": "Dynatrace",
       "query": {
+        "entityType": "Service",
         "smartscape": "toRelationships:calls",
         "aggregation": "count",
-        "tags": [
-          "backend"
-        ]
+        "tags": []
       },
       "grading": {
         "type": "Threshold",
+        "ignoreEmpty": true,
         "thresholds": {
           "upperSevere": 2,
           "lowerSevere": 0
@@ -142,14 +155,14 @@
       "id": "RunsOn_Backend",
       "source": "Dynatrace",
       "query": {
+        "entityType": "Service",
         "smartscape": "toRelationships:runsOn",
         "aggregation": "count",
-        "tags": [
-          "backend"
-        ]
+        "tags": []
       },
       "grading": {
         "type": "Threshold",
+        "ignoreEmpty": true,
         "thresholds": {
           "lowerSevere": 0
         },
