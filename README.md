@@ -62,5 +62,3 @@ are available but it's easy to write new sources and graders.
   ```
 
 ## API Documentation
-
-The API documentation can be found [here](./docs).
