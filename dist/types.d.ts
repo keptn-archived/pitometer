@@ -13,28 +13,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ *
+ */
+/**
+ * A pitometer source
+ */
 export interface ISource {
+    /** Returns the result of a single indicator query */
     fetch(query: object): Promise<ISourceResult[] | boolean>;
+    /**
+     * Accepts an option object.
+     * It is up to the implementation to store this data on the object as needed.
+     */
     setOptions(options: IOptions): void;
 }
+/**
+ * Represents the result of a query
+ */
 export interface ISourceResult {
+    /**
+     * The key is a unique identifier for a given entity that is inferred by the result
+     */
     key: string;
+    /**
+     * The timestamp the returned value is from
+     */
     timestamp: number;
+    /**
+     * A metrics value
+     */
     value: number;
+}
+/**
+ * A pitometer grader
+ */
+export interface IGrader {
+    grade(id: string, results: ISourceResult[] | boolean, definition: any): IGradingResult;
+    setOptions(options: IOptions): void;
 }
 export interface IViolation {
-    key: string;
-    value: number;
+    key?: string;
+    value?: number;
     breach: string;
-}
-export interface IGrader {
-    grade(id: string, results: ISourceResult[] | boolean, definition: any, context?: any): IGradingResult;
-    setOptions(options: IOptions): void;
 }
 export interface IGradingResult {
     id: string;
     score: number;
-    violations: any;
+    violations: IViolation[];
 }
 export interface IObjectives {
     pass: number;
@@ -63,7 +89,7 @@ export interface IIndicatorDefinition {
     grading: IGradingDefinition;
     metadata: any;
 }
-export interface IMonspec {
+export interface IPerfspec {
     spec_version: string;
     indicators: IIndicatorDefinition[];
     objectives: IObjectives;

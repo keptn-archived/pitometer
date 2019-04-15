@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ISource, IGrader, IRunResult, IMonspec, IOptions } from '../types';
+import { ISource, IGrader, IRunResult, IPerfspec, IOptions } from '../types';
 import { Indicator } from './Indicator';
 
 export class Pitometer {
@@ -50,10 +50,11 @@ export class Pitometer {
 
   /**
    * Executes a Monspec definition
+   *
    * @param spec The monspec as object
-   * @param context An optional context object that is passed down through the chain
+   * @param options An option object
   */
-  public async run(spec: IMonspec, options: IOptions): Promise<IRunResult> {
+  public async run(spec: IPerfspec, options: IOptions): Promise<IRunResult> {
 
     spec.indicators.forEach((idcdef) => {
       const indicator = new Indicator(idcdef);

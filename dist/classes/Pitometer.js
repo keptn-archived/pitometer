@@ -51,8 +51,9 @@ class Pitometer {
     }
     /**
      * Executes a Monspec definition
+     *
      * @param spec The monspec as object
-     * @param context An optional context object that is passed down through the chain
+     * @param options An option object
     */
     run(spec, options) {
         return __awaiter(this, void 0, void 0, function* () {

@@ -60,7 +60,7 @@ export class Indicator {
    */
   async get(context = '') {
     const results = await this.source.fetch(this.query);
-    const grade = this.grader.grade(this.id, results, this.grading, context);
+    const grade = this.grader.grade(this.id, results, this.grading);
     return grade;
   }
 }
