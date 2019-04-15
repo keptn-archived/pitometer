@@ -40,7 +40,7 @@ export interface IObjectives {
     pass: number;
     warning: number;
 }
-export interface IINdicatorResult {
+export interface IIndicatorResult {
     id: string;
     value: number;
     score: number;
@@ -50,7 +50,7 @@ export interface IRunResult {
     totalScore: number;
     result: string;
     objectives: IObjectives;
-    indicatorResults: IINdicatorResult[];
+    indicatorResults: IIndicatorResult[];
 }
 export interface IGradingDefinition {
     type: string;
