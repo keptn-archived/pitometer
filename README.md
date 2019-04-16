@@ -60,3 +60,7 @@ are available but it's easy to write new sources and graders.
     .then((results) => console.log(JSON.stringify(results)))
     .catch((err) => console.error(err));
   ```
+
+## API Documentation
+
+The API documentation can be found [here](https://keptn.github.io/pitometer/).
