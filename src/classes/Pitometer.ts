@@ -85,6 +85,7 @@ export class Pitometer {
 
     if (objectives.pass <= totalScore) {
       return {
+        options,
         totalScore,
         objectives,
         indicatorResults,
@@ -94,6 +95,7 @@ export class Pitometer {
 
     if (objectives.warning <= totalScore) {
       return {
+        options,
         totalScore,
         objectives,
         indicatorResults,
@@ -102,6 +104,7 @@ export class Pitometer {
     }
 
     return {
+      options,
       totalScore,
       objectives,
       indicatorResults,
