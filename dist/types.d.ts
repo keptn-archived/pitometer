@@ -73,6 +73,7 @@ export interface IIndicatorResult {
     violations: [];
 }
 export interface IRunResult {
+    options: IOptions;
     totalScore: number;
     result: string;
     objectives: IObjectives;

@@ -82,6 +82,7 @@ class Pitometer {
             const objectives = spec.objectives;
             if (objectives.pass <= totalScore) {
                 return {
+                    options,
                     totalScore,
                     objectives,
                     indicatorResults,
@@ -90,6 +91,7 @@ class Pitometer {
             }
             if (objectives.warning <= totalScore) {
                 return {
+                    options,
                     totalScore,
                     objectives,
                     indicatorResults,
@@ -97,6 +99,7 @@ class Pitometer {
                 };
             }
             return {
+                options,
                 totalScore,
                 objectives,
                 indicatorResults,

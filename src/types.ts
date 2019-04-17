@@ -83,6 +83,7 @@ export interface IIndicatorResult {
 }
 
 export interface IRunResult {
+  options: IOptions,
   totalScore: number;
   result: string;
   objectives: IObjectives;
