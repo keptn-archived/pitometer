@@ -1,6 +1,6 @@
 {
   "name": "@keptn/pitometer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Collects metrics and judges the health of a deployment",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

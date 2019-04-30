@@ -13,18 +13,22 @@ are available but it's easy to write new sources and graders.
 
 ## Quickstart
 
-1. As long as this module is not available on npm, please
-   run `npm install -S https://github.com/pitometer/pitometer` to install it
-   into your Node.js project. Sources can be installed the same way.
+1. Run `npm install -S @keptn/pitometer` to install it
+   into your Node.js project.
 
-2. Require, configure and register all components and
+2. Install a grader and sources:
+  - `npm install -S @keptn/pitometer-grader-threshold`
+  - `npm install -S @keptn/pitometer-source-prometheus`
+  - `npm install -S @keptn/pitometer-source-dynatrace`
+
+3. Require, configure and register all components and
    run the Perfspec file.
 
   ```js
-  const Pitometer = require('@pitometer/pitometer').Pitometer;
-  const DynatraceSource = require('@pitometer/source-dynatrace').Source;
-  const PrometheusSource = require('@pitometer/source-prometheus').Source;
-  const ThresholdGrader = require('@pitometer/grader-threshold').Grader;
+  const Pitometer = require('@keptn/pitometer').Pitometer;
+  const DynatraceSource = require('@keptn/source-dynatrace').Source;
+  const PrometheusSource = require('@keptn/source-prometheus').Source;
+  const ThresholdGrader = require('@keptn/grader-threshold').Grader;
 
   const pitometer = new Pitometer();
 
