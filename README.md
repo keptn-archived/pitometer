@@ -13,16 +13,17 @@ are available but it's easy to write new sources and graders.
 
 ## Quickstart
 
-1. Run `npm install -S @keptn/pitometer` to install it
-   into your Node.js project.
+1. Run `npm install -S @keptn/pitometer`
 
-2. Install a grader and sources:
-  - `npm install -S @keptn/pitometer-grader-threshold`
-  - `npm install -S @keptn/pitometer-source-prometheus`
-  - `npm install -S @keptn/pitometer-source-dynatrace`
+2. Install the graders and sources that are used in your Perfspec file:
 
-3. Require, configure and register all components and
-   run the Perfspec file.
+    ```
+    npm install -S @keptn/pitometer-grader-threshold
+    npm install -S @keptn/pitometer-source-prometheus
+    npm install -S @keptn/pitometer-source-dynatrace
+    ```
+
+3. Require, configure and register all components and run the Perfspec file.
 
   ```js
   const Pitometer = require('@keptn/pitometer').Pitometer;
