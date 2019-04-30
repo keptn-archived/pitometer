@@ -1,6 +1,6 @@
 {
   "name": "@pitometer/pitometer",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Collects metrics and judges the health of a deployment",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
