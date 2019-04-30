@@ -5,6 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
+    "prepublishOnly": "rm -rf dist && tsc",
+    "docs": "npx typedoc --module commonjs --out docs/ --exclude '**/__tests__/*' --readme README.md src/ && touch docs/.nojekyll",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
