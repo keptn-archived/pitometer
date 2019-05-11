@@ -1,7 +1,7 @@
 # Pitometer
 
-Pitometer is a Node.js module that helps you to qualify the overal performance
-or quality of applications using a well defined specificaton format.
+Pitometer is a Node.js module that helps you to qualify the overall performance
+or quality of applications using a well defined specification format.
 
 The specification is done using the Perfspec format which is a declarative way to
 define which metrics you want to pay attention to, the sources to collect
