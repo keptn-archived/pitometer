@@ -27,9 +27,9 @@ are available but it's easy to write new sources and graders.
 
   ```js
   const Pitometer = require('@keptn/pitometer').Pitometer;
-  const DynatraceSource = require('@keptn/source-dynatrace').Source;
-  const PrometheusSource = require('@keptn/source-prometheus').Source;
-  const ThresholdGrader = require('@keptn/grader-threshold').Grader;
+  const DynatraceSource = require('@keptn/pitometer-source-dynatrace').Source;
+  const PrometheusSource = require('@keptn/pitometer-source-prometheus').Source;
+  const ThresholdGrader = require('@keptn/pitometer-grader-threshold').Grader;
 
   const pitometer = new Pitometer();
 
