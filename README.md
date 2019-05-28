@@ -1,7 +1,7 @@
 # Pitometer
 
-Pitometer is a Node.js module that helps you to qualify the overal performance
-or quality of applications using a well defined specificaton format.
+Pitometer is a Node.js module that helps you to qualify the overall performance
+or quality of applications using a well defined specification format.
 
 The specification is done using the Perfspec format which is a declarative way to
 define which metrics you want to pay attention to, the sources to collect
@@ -27,9 +27,9 @@ are available but it's easy to write new sources and graders.
 
   ```js
   const Pitometer = require('@keptn/pitometer').Pitometer;
-  const DynatraceSource = require('@keptn/source-dynatrace').Source;
-  const PrometheusSource = require('@keptn/source-prometheus').Source;
-  const ThresholdGrader = require('@keptn/grader-threshold').Grader;
+  const DynatraceSource = require('@keptn/pitometer-source-dynatrace').Source;
+  const PrometheusSource = require('@keptn/pitometer-source-prometheus').Source;
+  const ThresholdGrader = require('@keptn/pitometer-grader-threshold').Grader;
 
   const pitometer = new Pitometer();
 
