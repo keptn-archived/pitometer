@@ -62,6 +62,7 @@ export interface IViolation {
   key?: string;
   value?: number;
   breach: string;
+  metadata?: any;
 }
 
 export interface IGradingResult {
