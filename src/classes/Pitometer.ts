@@ -123,16 +123,11 @@ export class Pitometer {
   }
 
   /**
-   * Executes a Monspec definition
-   *
-   * @param spec The monspec as object
-   * @param options An option object
-  */
-  public async run(spec: IPerfspec, options: IOptions): Promise<IRunResult> {
-
-    this.setOptions(options);
-    // var pulledResults = this.pullFromDatabase();
-
+   * 
+   * @param spec 
+   * @param options 
+   */
+  private async doRun(spec: IPerfspec, options: IOptions, compareResult: IRunResult): Promise<IRunResult>  {
     // 1: Set the data source and graders per indicator!
     spec.indicators.forEach((idcdef) => {
       const indicator = new Indicator(idcdef);
@@ -151,9 +146,20 @@ export class Pitometer {
     const promisedResults = Object.keys(this.indicators).map((key) => {
       const indicator = this.indicators[key];
 
-      // TODO: pass in the pulledResults from the previous tests to allow build2build comparison
+      console.log(JSON.stringify(compareResult));
 
-      return indicator.get(options.context);
+      // If we have results from a previous run, find the results of this indicator!!
+      var indicatorResult = null;
+      if(compareResult && compareResult.indicatorResults) {
+        for(var indResultIx=0;indResultIx<compareResult.indicatorResults.length;indResultIx++) {
+          if(compareResult.indicatorResults[indResultIx].id == key) {
+            indicatorResult = compareResult.indicatorResults[indResultIx];
+            break;
+          }
+        }
+      }
+
+      return indicator.get(options.context, indicatorResult);
     });
 
     const indicatorResults = await Promise.all(promisedResults);
@@ -196,5 +202,47 @@ export class Pitometer {
         });  
       } else resolve(runResult);
     });
+  }
+
+  /**
+   * Executes a Monspec definition
+   *
+   * @param spec The monspec as object
+   * @param options An option object
+  */
+  public async run(spec: IPerfspec, options: IOptions): Promise<IRunResult> {
+
+    this.setOptions(options);
+    const pitometer = this;
+
+    const returnPromise:Promise<IRunResult> = new Promise(function(resolve, reject) {
+      // pull compare data from datastore in case its requested via compareContext
+      if(options.compareContext && options.compareContext != null && pitometer.datastoreAccess) {
+        pitometer.datastoreAccess.pullFromDatabase(function(err, result) {
+          if(err) {
+            throw err;
+          }
+
+          var runPromise: Promise<IRunResult> = null;
+          // lets see if we found a result to compare with - otherwise we just run wihtout a comparision, e.g: when the first build happens
+          if(!result || result.length == 0) {
+            runPromise = pitometer.doRun(spec, options, null);
+          } else {
+            // lets pass in the first result as right now we ONLY SUPPORT comparison of a single run
+            runPromise = pitometer.doRun(spec, options, result[0]);
+          }
+
+          runPromise.then(function(value) {
+            resolve(value);
+          });
+        })
+      } else {
+        pitometer.doRun(spec, options, null).then(function(value) {
+          resolve(value);
+        });
+      }
+    });
+
+    return returnPromise;
   }
 }

@@ -59,9 +59,9 @@ export class Indicator {
    * Fetch and grade metrics
    * @param context The optional context that was passed to the run function
    */
-  async get(context = '') {
+  async get(context = '', compareResult = null) {
     this.results = await this.source.fetch(this.query);
-    const grade = this.grader.grade(this.id, this.results, this.grading);
+    const grade = this.grader.grade(this.id, this.results, this.grading, compareResult);
     return grade;
   }
 }

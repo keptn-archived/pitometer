@@ -54,7 +54,7 @@ export interface ISourceResult {
  */
 export interface IGrader {
   grade(
-    id: string, results: ISourceResult[] | boolean, definition: any): IGradingResult;
+    id: string, results: ISourceResult[] | boolean, definition: any, compareResult? : IGradingResult): IGradingResult;
   setOptions(options: IOptions): void;
 }
 
@@ -130,7 +130,7 @@ export interface IDatastore {
 
 export interface IOptions {
   context: string;
-  compareContext? : string
+  compareContext? : object;
   timeStart: number;
   timeEnd: number;
   individualResults?: boolean;

@@ -7,10 +7,12 @@ export class MongoDbAccess implements IDatastore {
 
     private pitometer: Pitometer;
     private mongoUrl: string;
+    private queryLimit: number;
 
-    constructor(pitometer: Pitometer, mongoUrl: string) {
+    constructor(pitometer: Pitometer, mongoUrl: string, queryLimit = 5) {
         this.pitometer = pitometer;
         this.mongoUrl = mongoUrl;
+        this.queryLimit = queryLimit;
     }
 
     public removeAllFromDatabase(context, callback) {
@@ -72,38 +74,35 @@ export class MongoDbAccess implements IDatastore {
      * Pulls results from the database and passes them to the callback
      */
     public async pullFromDatabase(callback) {
-        if (this.mongoUrl === undefined)
-            return null;
+        if (this.mongoUrl === undefined) {
+            callback("no mongo specified", null);
+            return;
+        }
 
         const pitometer = this.pitometer;
         const pulledResults: IRunResult[] = [];
+        const queryLimit = this.queryLimit;
+
         var MongoClient = require('mongodb').MongoClient;
 
+        // connect to Mongo
         MongoClient.connect(this.mongoUrl, function (err, db) {
             if (err) {
                 callback(err, null);
                 return;
             }
 
+            // connect to the database
             var dbo = db.db(PitometerDBName);
 
-            // Either query the last X successful builds
-            if (pitometer.getOptions().compareContext === undefined) {
-                console.log("1: " + pitometer.getTestContext());
-                // dbo.collection(this.pitometer.getTestContext()).find({"result" : "pass"}).sort({"timestamp" : -1}).limit(5).toArray(function(err, result) {
-                dbo.collection(pitometer.getTestContext()).find({}).toArray(function (err, result) {
-                    db.close();
-                    if (err) {
-                        callback(err, null);
-                    } else {
-                        pulledResults.push(...result);
-                        callback(null, pulledResults);
-                    }
-                });
-            } else {
+            // compareContext can either be undefined (returns last X), a string (identifiying a speciifc testRunId) or an object with a .find, .sort and .limit field
+            var compareContext:any = pitometer.getOptions().compareContext;
+
+            // 1: Query for a specific testRunId
+            if(typeof(compareContext) === "string") {
                 // or pull the one testRunId that the user wants us to compare as defined in compareContext
-                console.log("2: " + pitometer.getTestContext() + "-" + pitometer.getOptions().compareContext);
-                dbo.collection(pitometer.getTestContext()).findOne({ "testRunId": pitometer.getOptions().compareContext }, function (err, result) {
+                console.log("Query for : " + pitometer.getTestContext() + "-" + compareContext);
+                dbo.collection(pitometer.getTestContext()).findOne({ "testRunId": compareContext }, function (err, result) {
                     db.close();
                     if (err) {
                         callback(err, null);
@@ -112,7 +111,45 @@ export class MongoDbAccess implements IDatastore {
                         callback(null, pulledResults);
                     }
                 });
-            }
+            }  
+            // 2: execute a specific query as passed on compareContext
+            else if (typeof(compareContext) === 'object') {
+                /**
+                 * Example CompareContext
+                 * { 
+                 *   find : {result : "pass"},
+                 *   sort : {timestamp : -1 },
+                 *   limit : 5
+                 * }
+                 */
+                console.log("Query for: " + JSON.stringify(compareContext));
+                dbo.collection(pitometer.getTestContext()).find(compareContext.find).sort(compareContext.sort).limit(compareContext.limit).toArray(function(err, result) {
+                    db.close();
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        pulledResults.push(...result);
+                        callback(null, pulledResults);
+                    }
+                });
+            } 
+            // 3: just return last X
+            else {
+                var actualLimit = queryLimit;
+                if(typeof(compareContext) === 'number')
+                    actualLimit = compareContext;
+
+                console.log("Query for last " + actualLimit + " Results");
+                dbo.collection(pitometer.getTestContext()).find({}).limit(actualLimit).toArray(function (err, result) {
+                    db.close();
+                    if (err) {
+                        callback(err, null);
+                    } else { 
+                        pulledResults.push(...result);
+                        callback(null, pulledResults);
+                    }
+                });
+            } 
         });
     }
 }
