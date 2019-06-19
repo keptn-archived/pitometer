@@ -1,6 +1,7 @@
 import { IRunResult, IDatastore } from '../types';
 import { Pitometer } from './Pitometer';
 
+const PitometerDBName = "PitometerDB";
 
 export class MongoDbAccess implements IDatastore {
 
@@ -24,7 +25,7 @@ export class MongoDbAccess implements IDatastore {
                 return;
             }
 
-            var dbo = db.db("PitometerDB");
+            var dbo = db.db(PitometerDBName);
             dbo.collection(context).drop(function (err, res) {
                 if (err) {
                     console.log(err); callback(err, false);
@@ -54,7 +55,7 @@ export class MongoDbAccess implements IDatastore {
                 return;
             }
 
-            var dbo = db.db("PitometerDB");
+            var dbo = db.db(PitometerDBName);
             dbo.collection(pitometer.getTestContext()).insertOne(result, function (err, res) {
                 if (err) {
                     console.log(err); callback(err, false);
@@ -84,7 +85,7 @@ export class MongoDbAccess implements IDatastore {
                 return;
             }
 
-            var dbo = db.db("PitometerDB");
+            var dbo = db.db(PitometerDBName);
 
             // Either query the last X successful builds
             if (pitometer.getOptions().compareContext === undefined) {
