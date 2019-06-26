@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ISource, IGrader, IRunResult, IPerfspec, IOptions, IDatastore } from '../types';
+import { ISource, IGrader, IRunResult, IPerfspec, IOptions, IDatastore, IIndicatorResult } from '../types';
 import { Indicator } from './Indicator';
 
 export class Pitometer {
@@ -127,7 +127,7 @@ export class Pitometer {
       // console.log(JSON.stringify(compareResult));
 
       // If we have results from a previous run, find the results of this indicator!!
-      var indicatorResult = null;
+      var indicatorResult: IIndicatorResult = null;
       if(compareResult && compareResult.indicatorResults) {
         for(var indResultIx=0;indResultIx<compareResult.indicatorResults.length;indResultIx++) {
           if(compareResult.indicatorResults[indResultIx].id == key) {
