@@ -66,7 +66,7 @@ export interface IViolation {
 }
 
 export interface IIndividualGradingResult {
-  key?: string;
+  key?: string; 
   value: number;
   upperSevere?: number;
   upperWarning?: number;
