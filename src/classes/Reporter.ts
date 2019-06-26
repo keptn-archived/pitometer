@@ -56,9 +56,14 @@ export class Reporter  {
     public generateTimeseriesForReport(runResults : IRunResult[]) : object {       
         // This Map works like this
         /**
+         * "Score" :
+         *  "value"  : data = [{name:"test1", y:100, color:green},{name:"test2", y:50, color:red},...]
+         *  "pass"   : data = {{name:"test1", y:90}
+         *  "warning": data = [{name:"test1", y:75}
+         * 
          * "ResponseTime_ServiceABC" :
-         *   "value" : {name:"test1", value:1}
-         *   "upperSevere" : {name:"test1", value:2}
+         *   "value" : {name:"test1", y:1}
+         *   "upperSevere" : {name:"test1", y:2}
          * 
          * "FailureRate:"
          *   "value" : 

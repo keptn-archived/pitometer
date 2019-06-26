@@ -16,8 +16,6 @@
 
 import { ISource, IGrader, IRunResult, IPerfspec, IOptions, IDatastore } from '../types';
 import { Indicator } from './Indicator';
-import { MongoDbAccess } from './MongoDbAccess';
-
 
 export class Pitometer {
 
@@ -93,32 +91,12 @@ export class Pitometer {
     this.setOptions(options);
 
     return new Promise((resolve,reject) => {
-      // 5: write our result to the database
       if(this.datastoreAccess) {
         this.datastoreAccess.pullFromDatabase(function(err, pulledResults) {
           if(pulledResults) resolve(pulledResults);
           else reject("couldnt read from database: " + err);
         });  
       } else reject("no datastore specified");
-    });
-  }
-
-  /**
-   * 
-   * @param options will return an array of timeseries data
-   */
-  public async report(options: IOptions) : Promise<object[]> {
-    this.setOptions(options);
-
-    return new Promise((resolve,reject) => {
-      if(this.datastoreAccess) {
-        this.datastoreAccess.pullFromDatabase(function(err, pulledResults) {
-          if(pulledResults) {
-            resolve(pulledResults);
-          }
-          else reject("couldnt read from database: " + err);
-        });  
-      } else reject("No datastore specified)");
     });
   }
 
@@ -146,7 +124,7 @@ export class Pitometer {
     const promisedResults = Object.keys(this.indicators).map((key) => {
       const indicator = this.indicators[key];
 
-      console.log(JSON.stringify(compareResult));
+      // console.log(JSON.stringify(compareResult));
 
       // If we have results from a previous run, find the results of this indicator!!
       var indicatorResult = null;
