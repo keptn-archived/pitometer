@@ -50,6 +50,25 @@ export class Reporter  {
     };
 
     /**
+     * 
+     * @param reportSeries 
+     * @param seriesName e.g: value, upperSevere, ...
+     * @param color color code
+     * @param testRunId testrun_x
+     * @param value the actual value or null
+     */
+    static addTimeseries(reportSeries, seriesName, color, testRunId, value) {
+        var reportSeriesValue = reportSeries.get(seriesName);
+        if(!reportSeriesValue) {
+            reportSeriesValue = {"color" : color, "name" : seriesName, "data" : []};
+            reportSeries.set(seriesName, reportSeriesValue);
+        }
+
+        reportSeriesValue.data.push([testRunId, value]);
+        return reportSeriesValue;
+    }
+
+    /**
      * Iterates over the runResults and returns a JSON String that can be used in an HTML document to be visualized with HighCharts
      * @param runResults 
      */
@@ -108,48 +127,13 @@ export class Reporter  {
                         }
 
                         // now we make sure we have the actual value entry where we put all our actual data
-                        var reportSeriesValue = reportSeries.get("value");
-                        if(!reportSeriesValue) {
-                            reportSeriesValue = {"color" : COLOR_BLUE, "name" : "value", "data" : []};
-                            reportSeries.set("value", reportSeriesValue);
-                        }
+                        Reporter.addTimeseries(reportSeries, "value", COLOR_BLUE, runResult.testRunId, individualResult.value);
 
-                        reportSeriesValue.data.push([runResult.testRunId/*runResult.timestamp*/, individualResult.value]);
-
-
-                        // TODO - we also have the thresholds availble - could add these as extra data points!
-                        if(individualResult.upperSevere) {
-                            var reportSeriesUpperSevere = reportSeries.get("upperSevere");
-                            if(!reportSeriesUpperSevere) {
-                                reportSeriesUpperSevere = {"color": COLOR_RED, "name" : "upperSevere", "data" : []};
-                                reportSeries.set("upperSevere", reportSeriesUpperSevere);
-                            }
-                            reportSeriesUpperSevere.data.push([runResult.testRunId/*runResult.timestamp*/, individualResult.upperSevere]);
-                        }
-                        if(individualResult.upperWarning) {
-                            var reportSeriesUpperWarning = reportSeries.get("upperWarning");
-                            if(!reportSeriesUpperWarning) {
-                                reportSeriesUpperWarning = {"color": COLOR_YELLOW, "name" : "upperWarning", "data" : []};
-                                reportSeries.set("upperWarning", reportSeriesUpperWarning);
-                            }
-                            reportSeriesUpperWarning.data.push([runResult.testRunId/*runResult.timestamp*/, individualResult.upperWarning]);
-                        }
-                        if(individualResult.lowerSevere) {
-                            var reportSeriesLowerSevere = reportSeries.get("lowerSevere");
-                            if(!reportSeriesLowerSevere) {
-                                reportSeriesLowerSevere = {"color": COLOR_RED, "name" : "lowerSevere", "data" : []};
-                                reportSeries.set("lowerSevere", reportSeriesLowerSevere);
-                            }
-                            reportSeriesLowerSevere.data.push([runResult.testRunId/*runResult.timestamp*/, individualResult.lowerSevere]);
-                        }
-                        if(individualResult.lowerWarning) {
-                            var reportSeriesLowerWarning = reportSeries.get("lowerWarning");
-                            if(!reportSeriesLowerWarning) {
-                                reportSeriesLowerWarning = {"color": COLOR_YELLOW, "name" : "lowerWarning", "data" : []};
-                                reportSeries.set("lowerWarning", reportSeriesLowerWarning);
-                            }
-                            reportSeriesLowerWarning.data.push([runResult.testRunId/*runResult.timestamp*/, individualResult.lowerWarning]);
-                        }
+                        // now add the thresholds or null if we dont have a value!
+                        Reporter.addTimeseries(reportSeries, "upperSevere", COLOR_RED, runResult.testRunId, individualResult.upperSevere ? individualResult.upperSevere : null)
+                        Reporter.addTimeseries(reportSeries, "upperWarning", COLOR_YELLOW, runResult.testRunId, individualResult.upperWarning ? individualResult.upperWarning : null)
+                        Reporter.addTimeseries(reportSeries, "lowerSevere", COLOR_RED, runResult.testRunId, individualResult.lowerSevere ? individualResult.lowerSevere : null)
+                        Reporter.addTimeseries(reportSeries, "lowerWarning", COLOR_YELLOW, runResult.testRunId, individualResult.lowerWarning ? individualResult.lowerWarning : null)
                     }
                 } else {
                     // We only have the global indicator result, e.g: ResponseTime_Service - thats the name we use to store that metric

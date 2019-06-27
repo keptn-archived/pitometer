@@ -33,7 +33,7 @@ export class MongoDbAccess implements IDatastore {
                     console.log(err); callback(err, false);
                 } else {
                     console.log("Deleted " + context);
-                    callback(null, true);
+                    callback(null, "Delete all data from " + context);
                 }
                 db.close();
             });
