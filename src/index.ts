@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-export { ISource, IGrader, IGradingResult, IOptions, ISourceResult, IViolation, IDatastore, IIndividualGradingResult } from './types';
+export {
+  ISource,
+  IGrader,
+  IGradingResult,
+  IOptions,
+  ISourceResult,
+  IViolation,
+  IDatastore,
+  IRunResult,
+  IIndividualGradingResult,
+} from './types';
 
 export { Pitometer } from './classes/Pitometer';
 export { MongoDbAccess } from './classes/MongoDbAccess';
-export { Reporter } from './classes/Reporter';
