@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ISource, IGrader, IGradingDefinition, IIndicatorDefinition } from '../types';
+import { ISource, IGrader, IGradingDefinition, IIndicatorDefinition, ISourceResult } from '../types';
 
 export class Indicator {
   source: ISource;
@@ -23,6 +23,7 @@ export class Indicator {
   grading: IGradingDefinition;
   metadata: any;
   grader: IGrader;
+  results : ISourceResult[] | boolean;
 
   /**
    * Constructor
@@ -58,9 +59,9 @@ export class Indicator {
    * Fetch and grade metrics
    * @param context The optional context that was passed to the run function
    */
-  async get(context = '') {
-    const results = await this.source.fetch(this.query);
-    const grade = this.grader.grade(this.id, results, this.grading);
+  async get(context = '', compareResult = null) {
+    this.results = await this.source.fetch(this.query);
+    const grade = this.grader.grade(this.id, this.results, this.grading, compareResult);
     return grade;
   }
 }

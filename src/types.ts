@@ -54,7 +54,7 @@ export interface ISourceResult {
  */
 export interface IGrader {
   grade(
-    id: string, results: ISourceResult[] | boolean, definition: any): IGradingResult;
+    id: string, results: ISourceResult[] | boolean, definition: any, compareResult? : IGradingResult): IGradingResult;
   setOptions(options: IOptions): void;
 }
 
@@ -65,10 +65,20 @@ export interface IViolation {
   metadata?: any;
 }
 
+export interface IIndividualGradingResult {
+  key?: string; 
+  value: number;
+  upperSevere?: number;
+  upperWarning?: number;
+  lowerWarning?: number;
+  lowerSevere?: number;
+}
+
 export interface IGradingResult {
   id: string;
   score: number;
   violations: IViolation[];
+  individualResults? : IIndividualGradingResult[]
 }
 
 export interface IObjectives {
@@ -84,7 +94,10 @@ export interface IIndicatorResult {
 }
 
 export interface IRunResult {
-  options: IOptions,
+  options: IOptions;
+  timestamp: number;
+  testContext : string;
+  testRunId : string;
   totalScore: number;
   result: string;
   objectives: IObjectives;
@@ -110,8 +123,15 @@ export interface IPerfspec {
   objectives: IObjectives;
 }
 
+export interface IDatastore {
+  writeToDatabase(result: IRunResult, callback);
+  pullFromDatabase(callback);
+}
+
 export interface IOptions {
   context: string;
+  compareContext? : object;
   timeStart: number;
   timeEnd: number;
+  individualResults?: boolean;
 }
