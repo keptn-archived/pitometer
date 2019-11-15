@@ -1,3 +1,5 @@
+# :rotating_light: Pitometer will be deprecated with Keptn version 0.6.0. Please reach out to the Keptn team using Slack, a GitHub issue, or any other way you prefer to learn about the transition from Pitometer to the new [Lighthouse-Service](https://github.com/keptn/keptn/tree/develop/lighthouse-service). :rotating_light:
+
 # Pitometer
 
 Pitometer is a Node.js module that helps you to qualify the overall performance
